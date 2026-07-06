@@ -1,0 +1,118 @@
+﻿@model IEnumerable<BulkAccountUpload>
+@{
+    ViewData["Title"] = "User Uploads";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 id="pg_header" class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+
+    <div class="page-content-wrapper" style="margin-top:22px">
+        <!-- Start container -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>                    
+                    <th scope="col">DOCUMENT</th>
+                    <th scope="col">TOTAL COUNT</th>
+                    <th scope="col">CREATED</th>
+                    <th scope="col">DATE UPLOADED</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">REJECTION REASON</th>
+                    <th scope="col">INSTANCE USED</th>
+                    <th scope="col">Action</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    int count = 1;
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td style="display:none">@item.UploadId</td>                          
+                            <td>
+                                @item.FilePath
+                                @* <a asp-controller="Home" asp-action="DownloadUpload" asp-route-fileName="@item.FilePath" download>
+                                    Download File
+                                </a> *@
+                            </td>
+                            <td style="vertical-align:middle;">@item.UploadedCount</td>
+                            <td style="vertical-align:middle;">@item.CreatedCount</td>
+                            <td>@item.UploadDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @item.Status
+                            </td>
+                            <td>
+                                @item.RejectionReason
+                            </td>
+                            <td>
+                                @if(!string.IsNullOrEmpty(item.Instancez))
+                                {
+                                    <p>Running on Instance <strong>@item.Instancez</strong></p>
+                                } else {
+                                    @item.Instancez
+                                }
+                                
+                            </td>
+                            <td>
+                                <select class="form-select action-dd" style="width:100%; height:100%; border:none;">
+                                    <option value="">Select Instance</option>
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">Instance @i</option>
+                                    }
+                                    <option value="pause">Pause</option>
+                                </select>
+                            </td>
+                            
+                            <td>
+                                <form asp-controller="BulkAccountUpload"
+                                      asp-action="UpdateInstance"
+                                      method="post">
+
+                                    <input type="hidden" name="uploadId" value="@item.UploadId" />
+                                    <input type="hidden" name="instanz" class="instance-hidden" />
+
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm"
+                                            style="width:80%; height:30px;">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">No records found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <!-- End container -->
+    </div>
+    <!-- Page content Wrapper -->
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $('.action-dd').change(function () {
+        let row = $(this).closest('tr');
+        let selectedValue = $(this).val();
+
+        row.find('.instance-hidden').val(selectedValue);
+    });
+</script>
+

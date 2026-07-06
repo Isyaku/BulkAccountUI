@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Bulk Account Solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="shortcut icon" href="~/Content/assets/images/jaizicon.ico">
+    <!-- DataTables -->
+    <link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Sweet Alert -->
+    <link href="~/Content/assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css">
+    <!-- Light Box 2 CSS -->
+    <link href="~/Content/assets/plugins/lightbox2-master/dist/css/lightbox.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .details-table {
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+            .details-table th {
+                width: 20%; /* 30% width for table header */
+
+                text-align: left;
+                padding: 10px;
+                background-color: #f1f1f1;
+                font-weight: bold;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .details-table td {
+                width: 80%; /* 70% width for table data */
+
+                padding: 10px;
+                background-color: #fff;
+                border-bottom: 1px solid #ddd;
+            }
+
+        .table-borderless th,
+        .table-borderless td {
+            border: none;
+        }
+
+        .dashboard-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+
+        .exp-rerout-row {
+            display: flex;
+            justify-content: left;
+            background-color: #3a9bff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+
+        .dashboard-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+            .dashboard-card:hover {
+                transform: scale(1.05);
+            }
+
+            .dashboard-card span {
+                font-weight: bold;
+                color: #17a2b8;
+            }
+
+            .dashboard-card:nth-child(1) {
+                border-left: 5px solid #ffc107;
+            }
+
+            .dashboard-card:nth-child(2) {
+                border-left: 5px solid #28a745;
+            }
+
+            .dashboard-card:nth-child(3) {
+                border-left: 5px solid #007bff;
+            }
+
+            .dashboard-card:nth-child(4) {
+                border-left: 5px solid #dc3545;
+            }
+    </style>
+
+</head>
+<body class="fixed-left">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <div class="text-center">
+                    <a href="javascript:void(0)" class="logo"><span>Jaiz Bank&nbsp;Plc</span></a>
+                    <a href="javascript:void(0)" class="logo-sm"><span>J</span></a>
+                </div>
+            </div>
+
+            <!-- Button mobile view to collapse sidebar menu -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="">
+                        <div class="pull-left">
+                            <button type="button" class="button-menu-mobile open-left waves-effect waves-light">
+                                <i class="ion-navicon"></i>
+                            </button>
+                            <span class="clearfix"></span>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right pull-right">
+
+                            <li class="hidden-xs">
+                                <a href="#" id="btn-fullscreen" class="waves-effect waves-light notification-icon-box"><i class="mdi mdi-fullscreen"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                                    <img src="~/Content/jaiz-logo-circle.png" alt="user-img" class="img-circle">
+                                    <span class="profile-username">
+                                        <span id="user-id">Staff ID: @ViewBag.User </span> <br />
+                                        <small> Branch: @ViewBag.Branch (@ViewBag.BranchCode)</small>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar End -->
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu">
+            <div class="sidebar-inner slimscrollleft">
+
+                <div class="user-details">
+                    <div class="text-center">
+                        <img src="~/Content/jaiz-logo-circle.png" alt="" class="img-circle">
+                    </div>
+                </div>
+                <!--- Divider -->
+                <div id="sidebar-menu">
+
+                    <ul>
+                        <li>
+                            <a asp-controller="Home" asp-action="Index" class="waves-effect"><i class="mdi mdi-home"></i><span>Home</span></a>
+                        </li>
+                        @if (ViewBag.BulkAcctApprover != null)
+                        {
+                            <li>
+                                <a asp-controller="BulkAccountApprover" asp-action="Index" class="waves-effect"><i class="mdi mdi-check"></i><span>Accounts Approval</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="BulkAccountUpload" asp-action="UploadExcel" class="waves-effect"><i class="mdi mdi-upload"></i><span> Upload Accounts </span></a>
+                            </li>
+                            <li>
+                                <a asp-controller="BulkAccountDownload" asp-action="DownloadExcel" class="waves-effect"><i class="mdi mdi-download"></i><span>Download Accounts </span></a>
+                            </li>
+                            <li>
+                                <a asp-controller="BulkAccountUpload" asp-action="UserUploads" class="waves-effect"><i class="mdi mdi-download"></i><span>View Uploads </span></a>
+                            </li>
+                        }
+                        <li>
+                            <a asp-controller="Auth" asp-action="LogOut" class="waves-effect"><i class="glyphicon glyphicon-log-out"></i><span> Log Out</span></a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="clearfix"></div>
+            </div> <!-- end sidebarinner -->
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Start right Content here -->
+
+        <div class="content-page">
+            @RenderBody()
+            <footer class="footer">
+                &copy; @DateTime.Now.Year - Powered By Jaiz Bank Application Solutions
+            </footer>
+        </div>
+
+        <!-- End Right content here -->
+    </div>
+    <!-- END wrapper -->
+    <!-- jQuery  -->
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+    <script src="~/Content/assets/js/detect.js"></script>
+    <script src="~/Content/assets/js/fastclick.js"></script>
+    <script src="~/Content/assets/js/jquery.slimscroll.js"></script>
+    <script src="~/Content/assets/js/jquery.blockUI.js"></script>
+    <script src="~/Content/assets/js/waves.js"></script>
+    <script src="~/Content/assets/js/wow.min.js"></script>
+    <script src="~/Content/assets/js/jquery.nicescroll.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript">
+
+        document.addEventListener('readystatechange', function () {
+
+            switch (document.readyState) {
+                case "loading":
+                    // The document is still loading.
+                    $.blockUI({
+                        message: '<div class="progress progress-lg" style="margin-bottom: 0px;">' +
+                            '<div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"  style="width: 100%;">' +
+                            '<span class="sr-only">100% Complete</span>' +
+                            '</div>' +
+                            '</div>'
+                    });
+                    break;
+                case "interactive":
+                    // The document has finished loading. We can now access the DOM elements.
+                    // But sub-resources such as images, stylesheets and frames are still loading.
+                    $.blockUI({
+                        message: '<div class="progress progress-lg" style="margin-bottom: 0px;">' +
+                            '<div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"  style="width: 100%;">' +
+                            '<span class="sr-only">100% Complete</span>' +
+                            '</div>' +
+                            '</div>'
+                    });
+                    break;
+                case "complete":
+                    // The page is fully loaded.
+                    $.unblockUI();
+
+                    break;
+            }
+        });
+    </script>
+    <!--Morris Chart-->
+    @* <script src="~/Content/assets/plugins/morris/morris.min.js"></script> *@
+    <script src="~/Content/assets/plugins/raphael/raphael-min.js"></script>
+
+    @* <script src="~/Content/assets/pages/dashborad.js"></script> *@
+    <script src="~/Content/assets/js/app.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿@model BulkAccountUpload
+@{
+    ViewData["Title"] = "Approve/Reject Account";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 id="pg_header" class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+
+    <div id="content" class="page-content-wrapper" style="margin-top:22px">
+        <!-- Start container -->
+        <div>
+            <h5>Uploaded By <strong>@Model.StaffID</strong> on @Model.UploadDate.ToString("yyyy-MM-dd")</h5>
+        </div>
+
+        <div class="text-center">
+            <div class="form-inline" id="acceptForm">
+                <!-- Approve form -->
+                <form asp-action="ApproveReject" method="post" style="display: inline;">
+                    <input type="hidden" name="uploadID" value="@Model.UploadId" />
+                    <input type="hidden" name="isApproved" value="true" />
+                    <button type="submit" class="btn btn-success" onclick="loader()">Approve</button>
+                </form>
+                <button id="rejectBtn" style="margin-left:24px; width:88px" type="submit" class="btn btn-danger">Reject </button>
+            </div>
+
+            <div class="text-center">
+                <div class="form-inline">
+                    <!-- Reject form -->
+                    <form asp-action="ApproveReject" method="post" id="rejectForm" style="display: none;">
+                        <input type="hidden" name="uploadID" value="@Model.UploadId" />
+                        <input type="hidden" name="isApproved" value="false" />
+                        <div class="form-group">
+                            <label for="rejectionReason">Reason for Rejection:</label>
+                            <textarea class="form-control" name="rejectionReason" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                </div>
+            </div>           
+
+            <!-- End container -->
+        </div>
+        <!-- Page content Wrapper -->
+    </div>
+    <div id="loading"></div>
+</div>
+
+<script>
+    document.getElementById('rejectBtn').addEventListener('click', function (event) {
+        document.getElementById("rejectForm").style.display = "inline";
+        document.getElementById("acceptForm").style.display = "none";
+    });
+
+    function loader() {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("content").style.display = "none";
+        document.getElementById("pg_header").textContent = "Processing Accounts..."
+    }
+</script>

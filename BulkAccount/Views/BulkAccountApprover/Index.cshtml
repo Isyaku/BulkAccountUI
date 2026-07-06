@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BulkAccountUpload>
+@{
+    ViewData["Title"] = "Accounts Approval";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 id="pg_header" class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+
+    <div class="page-content-wrapper" style="margin-top:22px">
+        <!-- Start container -->
+        @if (ViewBag.BulkAcctApprover != null)
+        {
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">UPLOADED BY</th>
+                        <th scope="col">DOCUMENT</th>
+                        <th scope="col">DATE UPLOADED</th>
+                        <th scope="col">APPROVAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int count = 1;
+                        @foreach (var item in Model)
+                        {                            
+                            <tr>
+                                <th scope="row">@count</th>
+                                <td style="display:none">@item.UploadId</td>
+                                <td>@item.StaffID</td>
+                                <td>
+                                    <a asp-controller="Home" asp-action="DownloadUpload" asp-route-fileName="@item.FilePath" download>
+                                        Download File
+                                    </a>
+                                </td>
+                                <td>@item.UploadDate.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <a id="" asp-controller="BulkAccountApprover" asp-action="ApproveReject" asp-route-uploadId="@item.UploadId">
+                                        Approve/Reject
+                                    </a>
+                                </td>
+                                
+                            </tr>
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">No records found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>           
+        }
+        else
+        {
+            <div>
+                <h6 class="text-danger">Please <a href="@Url.Action("Login","Auth")">Login</a></h6>
+            </div>
+        }
+
+        <!-- End container -->
+    </div>
+    <!-- Page content Wrapper -->
+
+</div>
+

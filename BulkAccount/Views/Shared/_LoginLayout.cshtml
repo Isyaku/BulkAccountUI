@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Bulk Account Solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="shortcut icon" href="~/Content/assets/images/jaizicon.ico">
+
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="fixed-left">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <div class="login"></div>
+        <!-- Top Bar Start -->
+        <!-- Top Bar End -->
+        <!-- Start right Content here -->
+        <div class="content-page" style="margin-left: 0;">
+
+            @RenderBody()
+            <footer class="footer" style="left: 0;">
+                &copy; @DateTime.Now.Year - Powered By Jaiz Bank Application Solutions
+            </footer>
+
+        </div>
+
+        <!-- End Right content here -->
+
+
+    </div>
+    <!-- END wrapper -->
+    <!-- jQuery  -->
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+    <script src="~/Content/assets/js/detect.js"></script>
+    <script src="~/Content/assets/js/fastclick.js"></script>
+    <script src="~/Content/assets/js/jquery.slimscroll.js"></script>
+    <script src="~/Content/assets/js/jquery.blockUI.js"></script>
+    <script src="~/Content/assets/js/waves.js"></script>
+    <script src="~/Content/assets/js/wow.min.js"></script>
+    <script src="~/Content/assets/js/jquery.nicescroll.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollTo.min.js"></script>
+
+    <!--Morris Chart-->
+    @* <script src="~/Content/assets/plugins/morris/morris.min.js"></script> *@
+    <script src="~/Content/assets/plugins/raphael/raphael-min.js"></script>
+
+    @* <script src="~/Content/assets/pages/dashborad.js"></script> *@
+    <script src="~/Content/assets/js/app.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

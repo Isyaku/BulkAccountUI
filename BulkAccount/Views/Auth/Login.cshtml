@@ -1,0 +1,85 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "User Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+<div class="wrapper-page">
+    <div class="panel panel-color panel-primary panel-pages">
+
+        <div class="panel-body">
+            <h3 class="text-center m-t-0">
+                <img src="~/Content/JaizBank-Login.png" alt="JaizLogo" />
+            </h3>
+            <h3 class="text-center m-t-0 m-b-15">
+                <a href="#" class="logo logo-admin"><span>Bulk Account Solution </span></a>
+            </h3>
+            @*@if (!Model.IsValid)
+            {
+            <div class="alert alert-warning alert-dismissible fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            @Html.ValidationSummary(false, "")
+            </div>
+            }*@
+            <form asp-controller="Auth" asp-action="Login" method="post" enctype="multipart/form-data" onsubmit="encryptUserDetails(event)">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input id="txtUsername" asp-for="UserName" class="form-control" type="text" required="" placeholder="Username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input id="txtPassword" asp-for="Password" type="password" class="form-control" required="" placeholder="Password+Token" style="margin-top:8px; margin-bottom:8px;">
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-xs-12">
+                        <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">Log In</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<!-- content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0/jsencrypt.min.js"></script>
+<script>
+    //const publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJgNtzf0buUsgDN+oT+0HhwNQT5zUqRtlsRWScwnhDJ8G/EJ52mXxDKFoSY6My+TEa1amL2zk4zCleAxri3X5q0CAwEAAQ==";
+
+    const publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDNfQdJ5YUXLBU52eg4XcwL64vxg68ugD68sQ8GZnZTsBa5kp6vSDOTj2aTa/zu0FyETMOB+vvPmJyABK1/0xU+FHcVyRn9YZFjSJ9MfhuQ8W2kyaicfvnmtwxKyzOCuC5UPIyN6LOgSEW+TJQVHfQvJc5KrKctiRkF+LZnz87TUwIDAQAB";
+
+    function encryptTextWithPublicKey(text) {
+        const encryptor = new JSEncrypt();
+        encryptor.setPublicKey(publicKey);
+        return encryptor.encrypt(text);
+    }
+
+    function encryptUserDetails(event) {
+        event.preventDefault(); // Stop form submission until encryption is done
+
+        const usernameField = document.getElementById('txtUsername');
+        const passwordField = document.getElementById('txtPassword');
+
+        const txtUserName = usernameField.value;
+        const txtPassword = passwordField.value;
+
+        const encryptedUsername = encryptTextWithPublicKey(txtUserName);
+        const encryptedPassword = encryptTextWithPublicKey(txtPassword);
+
+        if (encryptedUsername && encryptedPassword) {
+            usernameField.value = encryptedUsername;
+            passwordField.value = encryptedPassword;
+            event.target.submit(); // Manually submit the form once encryption is complete
+        } else {
+            alert('Encryption failed');
+        }
+    }
+</script>

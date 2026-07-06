@@ -1,0 +1,82 @@
+﻿@model DownloadViewModel
+@{
+    ViewData["Title"] = "Accounts Download";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 id="pg_header" class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+
+    <div class="page-content-wrapper" style="margin-top:22px">
+        <!-- Start container -->
+        @if (ViewBag.User != null)
+        {
+            <div id="content" class="container custom-container text-center" style="width:450px; margin-top:58px">
+                @*<div>
+                    <a id="RetryFailedAccounts" asp-controller="BulkAccountDownload" asp-action="RetryFailedAccounts" style="margin-left:12px; color:green">Retry Failed Accounts</a>
+                </div>*@
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="">
+                            <div>
+                                @Html.DropDownListFor(m=>m.BulkAccoutUpload.UploadId, new SelectList(Model.BulkAccountUploadList,"Value","Text"), new{@class="form-control", ID="Selected"})
+                            </div>
+                            <div class="">
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <a class="btn btn-primary" id="btnSave">Download Accounts</a>
+                            </div>
+                        </div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div id="loading"></div>*@
+        }
+        else
+        {
+            <div>
+                <h6 class="text-danger">Please <a href="@Url.Action("Login","Auth")">Login</a></h6>
+            </div>
+        }
+
+        <!-- End container -->
+    </div>
+    <!-- Page content Wrapper -->
+
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+            if ($('#Selected').val() == "") {
+                alert("Kindly Select Uploaded Document!");
+            } else {
+                var baseUrl = '@Url.Action("ExportAccountsToExcel", "BulkAccountDownload")';
+                location.href = baseUrl + '?uploadId=' + $('#Selected').val();
+            }
+        });
+    });
+
+    //document.getElementById('RetryFailedAccounts').addEventListener('click', function (event) {
+
+    //    document.getElementById("loading").style.display = "block";
+    //    document.getElementById("content").style.display = "none";
+    //    document.getElementById("pg_header").textContent = "Processing Accounts..."
+    //});
+</script>
+
+
+
+

@@ -1,0 +1,82 @@
+﻿@model ProcessingViewModel
+
+@{
+    ViewData["Title"] = "Approved";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+
+    <div class="page-content-wrapper" style="margin-top:22px">
+        <!-- Start container -->
+        @if (ViewBag.User != null)
+        {
+            @if (ViewBag.Error == null)
+            {
+                <div class="">
+                    <h4 style="color:#5cb45b;"> Successful!</h4>
+                    <h6 style="color:#5cb45b;"> @Model.Message</h6>
+                </div>
+            }
+
+            @* <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Account Name</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Account Number</th>
+                        <th scope="col">CIF</th>
+                        <th scope="col">Failure Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AccountUpload.Any())
+                    {
+                        int count = 1;
+                        @foreach (var item in Model.AccountUpload)
+                        {
+                            <tr>
+                                <th scope="row">@count</th>
+
+                                <td>@item.AccountName</td>
+                                <td>@item.Status</td>
+                                <td>@item.AccountNo</td>
+                                <td>@item.Cif</td>
+                                <td>@item.FailureReason</td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">No records found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table> *@
+
+            <p class="text-danger">@ViewBag.Error</p>
+        }
+        else
+        {
+            <div>
+                <h6 class="text-danger">Please <a href="@Url.Action("Login","Auth")">Login</a></h6>
+            </div>
+        }
+
+        <!-- End container -->
+    </div>
+    <!-- Page content Wrapper -->
+
+</div>
+
+<script>
+    //document.getElementById("loading").style.display = "block";
+</script>

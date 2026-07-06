@@ -1,0 +1,111 @@
+﻿@model UploadViewModel
+@{
+    ViewData["Title"] = "Accounts Upload";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="">
+        <div class="page-header-title">
+            <h4 id="pg_header" class="page-title">@ViewBag.Title</h4>
+        </div>
+    </div>
+    <div class="page-content-wrapper" style="margin-top:133px">
+        <!-- Start container -->
+        @if (ViewBag.User != null)
+        {
+            <div id="content" class="container custom-container text-center">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form id="uploadForm" asp-controller="BulkAccountUpload" asp-action="UploadExcel" method="post" enctype="multipart/form-data" role="form" class="center-block">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            @*<label asp-for="AccountType" class="form-label text-primary"></label>*@
+                                            <select asp-for="AccountType" asp-items="Html.GetEnumSelectList<AccountType>()" class="form-control">
+                                                <option value="">Please Select Type of Account</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            @*<label asp-for="File" class="form-label text-primary"></label>*@
+                                            <input type="file" asp-for="File" class="form-control" onchange="fileChange(this)" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <input type="submit" value="Submit" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                
+                                
+                                <br> <br>
+                                <p class="text-success">@ViewBag.SuccessMessage</p>
+                                @*<p class="text-danger">@ViewBag.ErrorMessage</p>*@
+                                @if (Model != null && Model.Errors.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var error in Model.Errors)
+                                        {
+                                            <li class="text-danger">@error.message</li>
+                                        }
+                                    </ul>
+                                }
+                                @if (ViewBag.SuccessMessage != null)
+                                {
+                                   @* <div>
+                                        <br>
+                                        <span class="text-success">Please click<a id="RetryFailedAccounts" asp-controller="BulkAccountDownload" asp-action="RetryFailedAccounts" style="margin-left:12px;color:green">here</a> to begin processing.</span>
+                                    </div>*@
+                                    @*<div>
+                                        <br>
+                                        <span class="text-success">Accounts are now pocessing, keep browser opened.</span>
+                                    </div>*@
+                                }
+                                <p class="text-danger">@ViewBag.Error</p>
+                                <div asp-validation-summary="All" class="text-danger">
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="loading"></div>
+        }
+        else
+        {
+            <div>
+                <h6 class="text-danger">PLease <a href="@Url.Action("Login","Auth")">Login</a></h6>
+            </div>
+        }
+        <!-- End container -->
+    </div>
+    <!-- Page content Wrapper -->
+
+</div>
+
+<script>
+    function fileChange(target) {
+        var name = target.value;
+        var fileName = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+        if (fileName != "xls" && fileName != "xlsx") {
+            alert("please upload file in Excel format!");
+            target.value = "";
+            return false;
+        }
+    }
+    document.getElementById("uploadForm").addEventListener("submit", function () {
+        document.getElementById("loading").style.display = "block";
+    });
+
+    //document.getElementById('RetryFailedAccounts').addEventListener('click', function (event) {
+   
+    //    document.getElementById("loading").style.display = "block";
+    //    document.getElementById("content").style.display = "none";
+    //    document.getElementById("pg_header").textContent = "Processing Accounts..."
+    //});
+</script>
