@@ -67,7 +67,7 @@ namespace BulkAccount.Controllers
             var user = HttpContext.Session.GetString("user");
 
             var bulkUploads = _context.BulkAccountUpload.Where(b => b.StaffID == user).ToList();
-            
+
             return View(bulkUploads);
         }
 
@@ -93,7 +93,7 @@ namespace BulkAccount.Controllers
             var config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();            
+            .Build();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -209,9 +209,9 @@ namespace BulkAccount.Controllers
                         foreach (DataRow row in dataRows)
                         {
                             rowNumber++;
-                            if (!string.IsNullOrEmpty(row["Bvn"].ToString()))
+                            if (!string.IsNullOrEmpty(row["Bvn"].ToString()) || !string.IsNullOrEmpty(row["NIN"].ToString()))
                             {
-                                var selectedAccTypeGLCode = AcountTypeFromDropDown == "savings" ? "210801" : AcountTypeFromDropDown == "salary" ? "210101" : AcountTypeFromDropDown == "corporate" ? "210201" : AcountTypeFromDropDown == "kids" ? "210806"  : "210808";
+                                var selectedAccTypeGLCode = AcountTypeFromDropDown == "savings" ? "210801" : AcountTypeFromDropDown == "salary" ? "210101" : AcountTypeFromDropDown == "corporate" ? "210201" : AcountTypeFromDropDown == "kids" ? "210806" : "210808";
                                 var accountType = row["AccountType"].ToString().ToLower().Trim();
 
                                 if (AcountTypeFromDropDown == accountType)
@@ -347,10 +347,10 @@ namespace BulkAccount.Controllers
                     rowsAffected = sqlcmd.ExecuteNonQuery();
                 }
             }
-           
-            if(rowsAffected > 0) { ViewBag.SuccessMessage = "Update completed successfully."; } else { ViewBag.ErrorMessage = "Update failed. No record was modified."; ; }
+
+            if (rowsAffected > 0) { ViewBag.SuccessMessage = "Update completed successfully."; } else { ViewBag.ErrorMessage = "Update failed. No record was modified."; ; }
             return RedirectToAction("UserUploads");
-            
+
         }
     }
 }
